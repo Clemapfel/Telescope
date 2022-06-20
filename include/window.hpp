@@ -5,9 +5,8 @@
 
 #pragma once
 
-#include <vulkan/vulkan.hpp>
-
 #include <SDL2/SDL_render.h>
+#include <GL/gl.h>
 
 #include <string>
 
@@ -59,14 +58,16 @@ namespace ts
             /// \param width: number of pixels in x-dimension
             /// \param height: number of pixels in y-dimension
             /// \param options: window options
-            void create(size_t width, size_t height, uint32_t options = DEFAULT);
+            /// \param anti_aliasing_samples: number of samples for multi-sampling, defaults to 16
+            void create(size_t width, size_t height, uint32_t options = DEFAULT, size_t anti_aliasing_samples = 8);
 
             /// \brief create the window with a title
             /// \param title: title
             /// \param width: number of pixels in x-dimension
             /// \param height: number of pixels in y-dimension
             /// \param optiosn: window options
-            void create(std::string title, size_t width, size_t height, uint32_t options = DEFAULT);
+            /// \param anti_aliasing_samples: number of samples for multi-sampling, defaults to 16
+            void create(std::string title, size_t width, size_t height, uint32_t options = DEFAULT, size_t anti_aliasing_samples = 8);
 
             /// \brief close the window
             void close();
@@ -149,6 +150,8 @@ namespace ts
         private:
             SDL_Window* _window = nullptr;
             SDL_Renderer* _renderer;
+
+            SDL_GLContext _gl_context;
 
             SDL_Surface* _icon = nullptr;
 

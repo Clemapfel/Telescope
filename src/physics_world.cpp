@@ -50,7 +50,7 @@ namespace ts
         // their hitbox is increased by the size of the skin. If set too low, the objects will
         // seem to overlap.
 
-        return 1.5f / pixel_ratio;
+        return 1.f / pixel_ratio;
     }
 
     void PhysicsWorld::clear_forces()

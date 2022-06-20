@@ -25,7 +25,7 @@ Example: [available here](./test/example.cpp)
 The following dependencies need to be met: 
 + `SDL2`, 2.0.18+
 + `SDL2_image`, `SDL2_ttf`, `SDL2_mixer`, `SDL2_net`
-+ `Vulkan`, 1.2+
++ `OpenGL`, 3.3 ES
 + `glm`
 + `box2D`, 2.0+
 
@@ -47,8 +47,8 @@ rm -r SDL
 # install other SDL2 components
 sudo apt-get install libsdl2-image-dev libdsl2-mixer-dev libsdl2-ttf-dev libsdl2-net-dev
 
-# install vulkan
-sudo apt-get install libvulkan-dev
+# install OpenGL
+sudo apt-get install libopengl-dev mesa-common-dev freeglut3 freeglut3-dev
 
 # install box2D
 sudo apt-get install libbox2d2 libbox2d-dev

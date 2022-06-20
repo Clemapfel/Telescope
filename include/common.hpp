@@ -8,6 +8,8 @@
 #include <include/window.hpp>
 #include <include/time.hpp>
 
+#include <vector>
+
 namespace ts
 {
     /// \brief initialize all components of telescope

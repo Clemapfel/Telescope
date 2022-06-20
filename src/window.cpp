@@ -35,12 +35,12 @@ namespace ts
         detail::forward_render(this, object, transform);
     }
 
-    void Window::create(size_t width, size_t height, uint32_t options)
+    void Window::create(size_t width, size_t height, uint32_t options, size_t anti_aliasing_samples)
     {
-        create("", width, height, options);
+        create("", width, height, options, anti_aliasing_samples);
     }
 
-    void Window::create(std::string title, size_t width, size_t height, uint32_t options)
+    void Window::create(std::string title, size_t width, size_t height, uint32_t options, size_t anti_aliasing_samples)
     {
         if (width == 0 or height == 0)
         {
@@ -62,7 +62,7 @@ namespace ts
             _is_resizable = true;
 
         uint32_t sdl_options = SDL_WINDOW_SHOWN
-            | SDL_WINDOW_VULKAN
+            | SDL_WINDOW_INPUT_FOCUS
             | SDL_WINDOW_ALLOW_HIGHDPI;
 
         if (_is_resizable)
@@ -70,6 +70,23 @@ namespace ts
 
         if (_window != nullptr)
             SDL_DestroyWindow(_window);
+
+        // setup opengl
+        SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+
+        SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+        SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+        SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+        SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+
+        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 16);
+        SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
         _window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, sdl_options);
 
@@ -81,6 +98,11 @@ namespace ts
 
         _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
         SDL_RenderSetVSync(_renderer, true);
+
+        _gl_context = SDL_GL_CreateContext(_window);
+        if (_gl_context == nullptr)
+            Log::warning("In ts::Window::create: Unable to create OpenGL context.");
+
         _is_open = true;
     }
 
@@ -101,6 +123,7 @@ namespace ts
         _has_mouse_focus = false;
 
         SDL_DestroyWindow(_window);
+        SDL_GL_DeleteContext(_gl_context);
         _is_open = false;
     }
 

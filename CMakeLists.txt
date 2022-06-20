@@ -64,9 +64,7 @@ find_library(SDL2_mixer REQUIRED NAMES SDL2_mixer)
 #find_library(SDL2_ttf REQUIRED NAMES SDL2_ttf) # unused
 #find_library(SDL2_net REQUIRED NAMES SDL2_net) # unused
 
-find_library(vulkan REQUIRED NAMES vulkan)
-#find_package(shaderc_shared REQUIRED)      # unused
-
+find_library(open_gl REQUIRED NAMES GL)
 find_library(box2d REQUIRED NAMES box2d)
 
 include(CheckIncludeFileCXX)
@@ -213,9 +211,7 @@ target_link_libraries(telescope PUBLIC
     ${SDL2}
     ${SDL2_image}
     ${SDL2_mixer}
-    # ${SDL2_net} # unused
-    # ${SDL2_ttf} # unused
-    ${vulkan}
+    ${open_gl}
     ${box2d}
 )
 

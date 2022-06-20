@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
+#include <GL/gl.h>
 
 #include <include/render_target.hpp>
 #include <include/shape.hpp>
@@ -16,6 +17,8 @@ namespace ts
 {
     void Shape::render(RenderTarget* target, Transform transform) const
     {
+        // SDL_GL_BindTexture(_texture->get_native(), NULL, NULL);
+
         if (_xy.size() == 0)
             return;
 
