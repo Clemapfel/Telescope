@@ -11,6 +11,36 @@ namespace ts
         : _window(window), _texture(nullptr), _size(0, 0)
     {}
 
+    Texture& Texture::operator=(Texture&& other)
+    {
+        if (&other == this)
+            return *this;
+
+        _window = other._window;
+        _texture = other._texture;
+        _color = other._color;
+        _blend_mode = other._blend_mode;
+        _filtering_mode = other._filtering_mode;
+        _size = other._size;
+
+        // set to 0 to disable deallocation on dtor
+        other._texture = nullptr;
+        other._window = nullptr;
+    }
+
+    // no docs
+    Texture::Texture(Texture&& other)
+        : _window(other._window),
+          _texture(other._texture),
+          _color(other._color),
+          _blend_mode(other._blend_mode),
+          _filtering_mode(other._filtering_mode),
+          _size(other._size)
+    {
+        other._texture = nullptr;
+        other._window = nullptr;
+    }
+
     Texture::~Texture()
     {
         if (_texture != nullptr)

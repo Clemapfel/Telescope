@@ -55,6 +55,18 @@ namespace ts
             // no docs
             virtual ~Texture();
 
+            /// \brief copy ctor disabled
+            Texture(const Texture&) = delete;
+
+            /// \brief copy assignment disabled
+            Texture& operator=(const Texture&) = delete;
+
+            // no docs
+            Texture& operator=(Texture&&);
+
+            // no docs
+            Texture(Texture&&);
+
             /// \brief set the color each pixels value will be multiplied by
             /// \param color
             void set_color(RGBA);
