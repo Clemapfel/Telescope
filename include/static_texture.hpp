@@ -39,6 +39,11 @@ namespace ts
             /// \note supported formats include: .bmp, .png, .jpg, .jpeg
             bool load(const std::string& path);
 
+            /// \brief create from sdl surface
+            /// \param surface
+            /// \returns true on success, false otherwise
+            bool create_from(SDL_Surface*);
+
             /// \brief free the memory of the texture, this function is automatically called when the texture object calls its destructor
             void unload();
 

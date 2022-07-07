@@ -61,7 +61,7 @@ include(CTest)
 find_library(SDL2 REQUIRED NAMES SDL2)
 find_library(SDL2_image REQUIRED NAMES SDL2_image)
 find_library(SDL2_mixer REQUIRED NAMES SDL2_mixer)
-#find_library(SDL2_ttf REQUIRED NAMES SDL2_ttf) # unused
+find_library(SDL2_ttf REQUIRED NAMES SDL2_ttf)
 #find_library(SDL2_net REQUIRED NAMES SDL2_net) # unused
 
 find_library(vulkan REQUIRED NAMES vulkan)
@@ -196,7 +196,10 @@ add_library(telescope SHARED
 
     include/collision_line_sequence.hpp
     src/collision_line_sequence.cpp
-)
+
+    include/text.hpp
+    src/text.cpp
+        src/text.cpp)
 
 set_target_properties(telescope PROPERTIES
   LINKER_LANGUAGE C
@@ -215,7 +218,7 @@ target_link_libraries(telescope PUBLIC
     ${SDL2_image}
     ${SDL2_mixer}
     # ${SDL2_net} # unused
-    # ${SDL2_ttf} # unused
+    ${SDL2_ttf} # unused
     ${vulkan}
     ${box2d}
 )

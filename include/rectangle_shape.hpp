@@ -51,5 +51,7 @@ namespace ts
         private:
             Vector2f _top_left;
             Vector2f _size;
+
+            void update();
     };
 }

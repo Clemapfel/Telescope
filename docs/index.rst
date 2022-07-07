@@ -25,6 +25,7 @@ Please navigate to the appropriate section below:
     window
     shapes
     texture
+    text
     input_handler
     camera
     audio

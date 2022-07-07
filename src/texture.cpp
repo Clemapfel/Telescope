@@ -26,9 +26,10 @@ namespace ts
         // set to 0 to disable deallocation on dtor
         other._texture = nullptr;
         other._window = nullptr;
+
+        return *this;
     }
 
-    // no docs
     Texture::Texture(Texture&& other)
         : _window(other._window),
           _texture(other._texture),

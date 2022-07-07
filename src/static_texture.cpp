@@ -44,6 +44,23 @@ namespace ts
         return true;
     }
 
+    bool StaticTexture::create_from(SDL_Surface* surface)
+    {
+        SDL_SetHint("SDL_HINT_RENDER_SCALE_QUALITY", std::to_string((size_t) get_filtering_mode()).c_str());
+        _texture = SDL_CreateTextureFromSurface(_window->get_renderer(), surface);
+
+        if (_texture == nullptr)
+        {
+            ts::Log::warning("In ts::Texture.create_from: unable to load texture from sdl surface: ", SDL_GetError());
+            _texture = nullptr;
+            return false;
+        }
+
+        Texture::update();
+        SDL_ClearHints();
+        return true;
+    }
+
     void StaticTexture::unload()
     {
         SDL_DestroyTexture(_texture);

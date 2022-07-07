@@ -27,6 +27,7 @@
 #include <include/texture.hpp>
 #include <include/static_texture.hpp>
 #include <include/render_texture.hpp>
+#include <include/text.hpp>
 #include <include/window.hpp>
 #include <include/transform.hpp>
 #include <include/camera.hpp>

@@ -50,6 +50,29 @@ int main()
     const auto window_size = Vector2ui(800, 600);
     window.create("Telescope Example", window_size.x, window_size.y);
 
+    // TODO
+    auto str = "Lorem ipsum dolor sit amet, <col=(1, 0, 1)>consectetur</col> adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur...";
+    auto text = Text(48, "Roboto",
+         "/home/clem/Workspace/Telescope/test/Roboto-Regular.ttf",
+         "/home/clem/Workspace/Telescope/test/Roboto-Bold.ttf",
+         "/home/clem/Workspace/Telescope/test/Roboto-Italic.ttf",
+         "/home/clem/Workspace/Telescope/test/Roboto-BoldItalic.ttf"
+    );
+    text.create(window, {50, 25}, str, window.get_size().x - 2 * 50);
+    text.set_centroid(Vector2f(window.get_size().x * 0.5, window.get_size().y * 0.5));
+
+    text.set_alignment(Text::JUSTIFIED);
+
+    while (window.is_open())
+    {
+        auto time = start_frame(&window);
+
+        window.render(&text);
+        end_frame(&window);
+    }
+
+    return 0;
+
     // create the physics world
     auto world = PhysicsWorld();
     world.set_gravity(Vector2f(0, 100)); // gravity pulls screen-down

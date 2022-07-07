@@ -32,6 +32,19 @@ namespace ts
     void RectangleShape::set_size(Vector2f size)
     {
         _size = size;
+        _vertices.at(0).position.x = _top_left.x;
+        _vertices.at(0).position.y = _top_left.y;
+
+        _vertices.at(1).position.x = _top_left.x + _size.x;
+        _vertices.at(1).position.y = _top_left.y;
+
+        _vertices.at(2).position.x = _top_left.x;
+        _vertices.at(2).position.y = _top_left.y + _size.y;
+
+        _vertices.at(3).position.x = _top_left.x + _size.x;
+        _vertices.at(3).position.y = _top_left.y + _size.y;
+
+        signal_vertices_updated();
     }
 
     Vector2f RectangleShape::get_size() const
@@ -46,7 +59,16 @@ namespace ts
 
     void RectangleShape::set_top_left(Vector2f top_left)
     {
+        auto offset = top_left - _top_left;
         _top_left = top_left;
+
+        for (auto& vertex : _vertices)
+        {
+            vertex.position.x += offset.x;
+            vertex.position.y += offset.y;
+        }
+
+        signal_vertices_updated();
     }
 }
 
