@@ -763,9 +763,6 @@ namespace ts
         }
     }
 
-    void Text::update(Time time)
-    {}
-
     Rectangle Text::get_bounding_box() const
     {
         auto out = Rectangle();
@@ -879,5 +876,30 @@ namespace ts
             auto current_pos = glyph._shape.get_top_left();
             glyph.set_top_left(current_pos + offset);
         }
+    }
+
+    size_t Text::get_n_glyphs() const
+    {
+        return _glyphs.size();
+    }
+
+    RectangleShape* Text::get_glyph_shape(size_t i)
+    {
+        return &_glyphs.at(i)._shape;
+    }
+
+    RectangleShape* Text::get_glyph_background_shape(size_t i)
+    {
+        return &_glyphs.at(i)._background_shape;
+    }
+
+    std::string Text::get_glyph_content(size_t i) const
+    {
+        return _glyphs.at(i)._content;
+    }
+
+    const Font* Text::get_font()
+    {
+        return &_fonts.at(_font_id);
     }
 }

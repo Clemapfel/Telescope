@@ -14,31 +14,52 @@
 
 namespace ts
 {
+    /// \brief font collection
+    struct Font
+    {
+        /// \brief regular weight, always non-nullptr
+        TTF_Font* regular;
+
+        /// \brief optional: bold weight
+        TTF_Font* bold;
+
+        /// \brief optional: italic
+        TTF_Font* italic;
+
+        /// \brief optional: italic and bold weight
+        TTF_Font* bold_italic;
+    };
+
     /// \brief single or multi-line text
     class Text : public Renderable
     {
         public:
-            /// \brief control sequence start/end
-            static inline std::string tag_prefix = "<",
-                    tag_suffix = ">",
-                    tag_close_marker = "/";
-            // example: <a> opens, </a> closes same region with tag a
+            /// \brief prefix of tag marking control sequence, e.g. <b>
+            static inline std::string tag_prefix = "<";
 
-            /// \brief basic format tags
-            /// \note will be parsed as: \<tag_open_prefix>\<tag>\<tag_open_suffix> text \<tag_close_prefix>\<tag>\<tag_close_suffix>
-            /// \example \<b>text\<\/b>
-            static inline std::string bold_tag = "b",
-                    italic_tag = "i",
-                    underlined_tag = "u",
-                    strikethrough_tag = "s";
+            /// \brief suffix of tag marking control sequence, e.g. <b>
+            static inline std::string tag_suffix = ">";
 
-            /// \brief color format tags, need to be followed by a color value
-            /// \note will be parsed as: \<tag_open_prefix>\<tag=(r, g, b)> text \<tag_close_prefix>\<tag>\<tag_close_suffix><br>
-            /// (spaces after comma optional. decimal pointers optional)
-            /// \example \<col=(0.1, 0.8, 1)> text \</col><br>
-            /// \<col=(0,1,1)> text \</col>
-            static inline std::string color_foreground_tag = "col",
-                                      color_background_tag = "col_bg";
+            /// \brief char marking a tag as a closing tag, e.g. <b> opens, </b> closes
+            static inline std::string tag_close_marker = "/";
+
+            /// \brief basic format tags: bold: <b>bold text</b>
+            static inline std::string bold_tag = "b";
+
+            /// \brief basic format tags: italic: <i>italic text</i>
+            static inline std::string italic_tag = "i";
+
+            /// \brief basic format tags: underlined: <i>underlined text</i>
+            static inline std::string underlined_tag = "u";
+
+            /// \brief basic format tags: strikethrough: <i>strikethrough text</i>
+            static inline std::string strikethrough_tag = "s";
+
+            /// \brief foreground color tag: <col=(1, 0, 1)>fg colored text</col>
+            static inline std::string color_foreground_tag = "col";
+
+            /// \brief background color tag: <col_bg=(1, 0, 1)>bg colored text</col_bg>
+            static inline std::string color_background_tag = "col_bg";
 
             /// \brief initialize the text by loading a font
             /// \param font_size: size of font, in px
@@ -47,8 +68,7 @@ namespace ts
             /// \param bold_path: [optional] absolute path to the .ttf file containing the bold version of the font
             /// \param italic_path: [optional] absolute path to the .ttf file containing the italic version of the font
             /// \param bold_italic_path: [optional] absolute path to the .ttf file containing the bold-italic version of the font
-            /// \note if bold, italic and/or bold-italic are not specified, the regular font will be transform instead. Specifying separate
-            //        fonts tends to lead to cleaner results
+            /// \note if bold, italic and/or bold-italic are not specified, the regular font will be modified during render instead. Specifying separate fonts tends to lead to cleaner results
             Text(size_t font_size,
                 const std::string& font_family_name,
                 const std::string& regular_path,
@@ -134,19 +154,27 @@ namespace ts
             /// \copydoc rat::Renderable::render
             void render(RenderTarget* target, Transform transform = Transform()) const override;
 
-            /// \brief update the texts animations
-            /// \param time: time elapsed since last frame, usually return value of `rat::Window::update`
-            void update(Time);
+            /// \brief get number of glyph shapes
+            /// \returns number
+            size_t get_n_glyphs() const;
+
+            /// \brief get glyph foreground shape, this shape has it's texture set to the texture of the glyph
+            /// \returns non-const pointer to shape
+            RectangleShape* get_glyph_shape(size_t i);
+
+            /// \brief get glyph background shape, this shape has no texture and it's color is the background color
+            /// \returns non-const pointer to shape
+            RectangleShape* get_glyph_background_shape(size_t i);
+
+            /// \brief get the raw text of the n-ths glyph, format tags are already parsed out
+            /// \returns string
+            std::string get_glyph_content(size_t i) const;
+
+            /// \brief get font object used by text
+            /// \returns const pointer to ts::Font object
+            const Font* get_font();
 
         private:
-            struct Font
-            {
-                TTF_Font* regular;
-                TTF_Font* bold;
-                TTF_Font* italic;
-                TTF_Font* bold_italic;
-            };
-
             static inline std::map<std::string, Font> _fonts;
             std::string _font_id;
             size_t _n_lines;

@@ -81,10 +81,10 @@ ts::CollisionTriangleShape
 .. doxygenclass:: ts::CollisionTriangleShape
     :members:
 
-ts::CollisionWireframe
-^^^^^^^^^^^^^^^^^^^^^^
+ts::CollisionLineSequence
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. doxygenclass:: ts::CollisionWireframe
+.. doxygenclass:: ts::CollisionLineSequence
     :members:
 
 ts::end_frame
@@ -95,7 +95,7 @@ ts::end_frame
 ts::Exception
 ^^^^^^^^^^^^^
 
-.. doxygenclass:: ts::Exception
+.. doxygenstruct:: ts::Exception
     :members:
 
 ts::InputHandler
@@ -104,10 +104,16 @@ ts::InputHandler
 .. doxygenclass:: ts::InputHandler
     :members:
 
+ts::Font
+^^^^^^^^
+
+.. doxygenstruct:: ts::Font
+    :members:
+
 ts::SDLErrorException
 ^^^^^^^^^^^^^^^^^^^^^
 
-.. doxygenclass:: ts::SDLErrorException
+.. doxygenstruct:: ts::SDLErrorException
     :members:
 
 ts::set_framerate_limit
@@ -212,6 +218,12 @@ ts::StaticTexture
 .. doxygenclass:: ts::StaticTexture
     :members:
 
+ts::Text
+^^^^^^^^
+
+.. doxygenclass:: ts::Text
+    :members:
+
 ts::Texture
 ^^^^^^^^^^^
 
@@ -273,6 +285,7 @@ ts::Window
 
 .. doxygenclass:: ts::Window
     :members:
+
 
 
 
